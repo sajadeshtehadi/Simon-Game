@@ -2,71 +2,51 @@
 
 
 
-using Simon_Game;
-
 Random numberGenerator = new Random();
-List<char> moves = new List<char>();
-char[] colors = { 'B', 'Y', 'G', 'R' };
-int score = 0;
 
-while (true)
+int userWins = 0;
+int computerWins = 0;
+
+while (userWins < 3 && computerWins < 3)
 {
-    char steps = colors[numberGenerator.Next(colors.Length)];
-    moves.Add(steps);
+    Console.WriteLine("Write R(Rock), P(Paper), S(Scissors)");
 
-    for (int i = 0; i < moves.Count; i++)
+    char user = char.ToUpper(Console.ReadLine()[0]);
+    int computerNumber = numberGenerator.Next(3);
+    char computer = 'R';
+
+    string[] computerMove = { "Rock", "Paper", "Scissors" };
+
+    switch (computerNumber)
     {
-        Console.Clear();
-        Console.WriteLine("=========");
-        Console.WriteLine("Simon Version");
-        Console.WriteLine("=========");
-        Helper.ShowHeader(true, true, moves.Count);
-
-        char color = moves[i];
-
-        switch (color)
-        {
-            case 'B':
-                Console.WriteLine("blue");
-                break;
-            case 'Y':
-                Console.WriteLine("yellow");
-                break;
-            case 'G':
-                Console.WriteLine("green");
-                break;
-            case 'R':
-                Console.WriteLine("red");
-                break;
-            default:
-                break;
-        }
-        Thread.Sleep(1000);
-        Console.Clear();
-        Helper.ShowHeader(true, true, moves.Count);
-        Thread.Sleep(1000);
+        case 0:
+            computer = 'R';
+            break;
+        case 1:
+            computer = 'P';
+            break;
+        case 2:
+            computer = 'S';
+            break;
+        default:
+            Console.WriteLine("Game");
+            break;
     }
+    Console.WriteLine("Computer Move: " + computerMove[computerNumber]);
 
-    bool correct = true;
-
-    for (int i = 0; i < moves.Count; i++)
+    if (user == computer)
     {
-        Console.Clear();
-        Helper.ShowHeader(true, true, moves.Count);
-
-        string input = Console.ReadLine();
-        char answer = char.ToUpper(input[0]);
-
-        if (answer != moves[i])
-        {
-            Console.WriteLine("Game Over :/");
-            Console.WriteLine("Your Score: " + score);
-            return;
-        }
-
-
-        score++;
+        Console.WriteLine("It's A Draw :|");
     }
-    Console.WriteLine("New high score: " + moves.Count);
-    Thread.Sleep(2000);
+    else if ((user == 'P' && computer == 'R') || (user == 'R' && computer == 'S') || (user == 'S' && computer == 'P'))
+    {
+        Console.WriteLine("You Win ;)");
+        userWins++;
+    }
+    else
+    {
+        Console.WriteLine("Computer Wins :(");
+        computerWins++;
+    }
+    Console.WriteLine("Your Score: " + userWins + " Computers Score: " + computerWins);
 }
